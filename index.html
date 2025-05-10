@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escape the Multitasking Trap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #0D0D0D;
+      --text-color: #F5F5F5;
+      --accent-teal: #00FFC3;
+      --accent-orange: #FFA552;
+
+      --icon-green-rgb: 0, 255, 195;
+      --icon-yellow-rgb: 255, 165, 82;
+      --icon-blue-rgb: 0, 163, 255;
+      --icon-red-rgb: 255, 76, 76;
+
+      --icon-green: #00FFC3;
+      --icon-yellow: #FFA552;
+      --icon-blue: #00A3FF;
+      --icon-red: #FF4C4C;
+
+      --glass-bg-base: rgba(45, 45, 45, 0.15);
+      --glass-blur-base: 6px;
+      --glass-bg-hover-intensity: 0.08;
+      --glass-blur-hover: 10px;
+    }
+
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-family: 'Inter', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+
+    .content-wrapper {
+      width: 67vw;
+      max-width: 1000px;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .value-props-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        width: 100%;
+    }
+
+    .point-container {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 1.5rem 1.25rem;
+      border-radius: 12px;
+      background-color: var(--glass-bg-base);
+      backdrop-filter: blur(var(--glass-blur-base)) saturate(120%);
+      -webkit-backdrop-filter: blur(var(--glass-blur-base)) saturate(120%);
+      border: 1px solid rgba(245, 245, 245, 0.08);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                  background-color 0.3s ease-out,
+                  backdrop-filter 0.3s ease-out,
+                  box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+                  border-color 0.3s ease-out;
+      will-change: transform, background-color, backdrop-filter, box-shadow, border-color;
+      visibility: hidden;
+      position: relative;
+      z-index: 1;
+      text-align: left;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .point-container:hover {
+      transform: scale(1.03);
+      backdrop-filter: blur(var(--glass-blur-hover)) saturate(150%);
+      -webkit-backdrop-filter: blur(var(--glass-blur-hover)) saturate(150%);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+      z-index: 10;
+    }
+
+    .point-container.video-item:hover {
+        background-color: rgba(var(--icon-green-rgb), var(--glass-bg-hover-intensity));
+        border-color: rgba(var(--icon-green-rgb), 0.4);
+    }
+    .point-container.list-item:hover {
+        background-color: rgba(var(--icon-yellow-rgb), var(--glass-bg-hover-intensity));
+        border-color: rgba(var(--icon-yellow-rgb), 0.4);
+    }
+    .point-container.file-item:hover {
+        background-color: rgba(var(--icon-blue-rgb), var(--glass-bg-hover-intensity));
+        border-color: rgba(var(--icon-blue-rgb), 0.4);
+    }
+    .point-container.flask-item:hover {
+        background-color: rgba(var(--icon-red-rgb), var(--glass-bg-hover-intensity));
+        border-color: rgba(var(--icon-red-rgb), 0.4);
+    }
+
+    h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); margin-bottom: 0.5rem; font-weight: 700; visibility: hidden; }
+    h1 .word-wrapper { display: inline-block; overflow: hidden; vertical-align: top; }
+    h1 .word-inner, .char-anim { display: inline-block; position: relative; will-change: transform, opacity; }
+
+    p.subheading { font-size: clamp(1rem, 3vw, 1.25rem); line-height: 1.7; color: #D0D0D0; visibility: hidden; margin-bottom: 0; width: 100%; max-width: 650px; }
+
+    .value-props-list .icon {
+      font-size: 1.6rem;
+      width: 2.5rem;
+      text-align: center;
+      margin-right: 1rem;
+      flex-shrink: 0;
+    }
+    .value-props-list .li-text {
+        flex-grow: 1;
+        font-size: clamp(0.9rem, 2.3vw, 1.05rem);
+        line-height: 1.7;
+    }
+    .value-props-list .li-text strong {
+        font-weight: 600; /* Slightly less heavy than 700 if desired, or keep 700 */
+    }
+
+
+    .icon-video { color: var(--icon-green); }
+    .icon-list  { color: var(--icon-yellow); }
+    .icon-file  { color: var(--icon-blue); }
+    .icon-flask { color: var(--icon-red); }
+
+    .highlight { color: var(--accent-teal); font-weight: 600; display: block; font-size: clamp(1.1rem, 3vw, 1.35rem); visibility: hidden; margin-bottom: 0; width: 100%; max-width: 650px;}
+
+    /* Highlight phrases in subheading */
+    .highlight-phrase {
+      position: relative;
+      display: inline;
+    }
+    .highlight-phrase strong {
+      position: relative;
+      z-index: 1;
+      font-weight: 700;
+      padding: 0 0.1em;
+    }
+    .highlight-phrase::before {
+      content: '';
+      position: absolute;
+      left: -0.1em;
+      right: -0.1em;
+      top: 0;
+      bottom: 0;
+      width: calc(100% + 0.2em);
+      transform: scaleX(var(--marker-width, 0));
+      transform-origin: left;
+      z-index: 0;
+      border-radius: 3px;
+      transition: transform 0.5s ease;
+    }
+    .highlight-phrase.highlight-green::before {
+      background-color: rgba(var(--icon-green-rgb), 0.2);
+      box-shadow: 0 0 10px 2px rgba(var(--icon-green-rgb), 0.45);
+    }
+    .highlight-phrase.highlight-red::before {
+      background-color: rgba(var(--icon-red-rgb), 0.2);
+      box-shadow: 0 0 10px 2px rgba(var(--icon-red-rgb), 0.45);
+    }
+    .highlight-phrase.highlight-blue::before {
+      background-color: rgba(var(--icon-blue-rgb), 0.2);
+      box-shadow: 0 0 10px 2px rgba(var(--icon-blue-rgb), 0.45);
+    }
+
+    .coming-soon-text {
+      color: var(--icon-red);
+      font-weight: 700;
+    }
+    .coming-soon-text strong { font-weight: 700; }
+
+    .scroll-to-form-btn {
+      padding: 0.9rem 1.75rem;
+      background: var(--icon-red); /* MODIFIED: Red color */
+      color: var(--text-color);     /* MODIFIED: White text for contrast */
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color 0.2s ease, transform 0.15s ease-out;
+      width: 100%;
+      max-width: 280px;
+      box-sizing: border-box;
+      visibility: hidden;
+      margin-top: 0.5rem;
+    }
+    .scroll-to-form-btn:hover {
+      background: #ff3333; /* MODIFIED: Lighter red for hover */
+      transform: scale(1.05);
+    }
+
+
+    #waitlist-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      align-items: center;
+      visibility: hidden;
+      margin-bottom: 0;
+      width: 100%;
+      max-width: 400px;
+    }
+    .form-input,
+    .form-button {
+      padding: 0.9rem 1.1rem;
+      width: 100%;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: #1E1E1E;
+      color: var(--text-color);
+      font-size: 1rem;
+      font-family: inherit;
+      box-sizing: border-box;
+    }
+    .form-input::placeholder { color: #888; }
+
+    .form-button {
+      background: var(--accent-teal);
+      color: var(--bg-color);
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.15s ease-out;
+    }
+    .form-button:hover { background: #00e6b8; transform: scale(1.05); }
+    .form-button:active { transform: scale(0.98) translateY(1px); transition-duration: 0.05s; }
+
+    footer { margin-top: 3rem; padding-top: 1rem; font-size: 0.85rem; color: #777; }
+
+    .custom-message { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-120px); padding: 1rem 1.5rem; border-radius: 8px; background-color: rgba(30, 30, 30, 0.65); backdrop-filter: blur(12px) saturate(150%); -webkit-backdrop-filter: blur(12px) saturate(150%); color: var(--text-color); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35); z-index: 1000; text-align: center; min-width: 280px; max-width: 90%; opacity: 0; visibility: hidden; transition: opacity 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0.35s; }
+    .custom-message.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); transition: opacity 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0s; }
+    .custom-message.success { border-left: 5px solid var(--accent-teal); background-color: rgba(0, 255, 195, 0.15); }
+    .custom-message.error { border-left: 5px solid var(--icon-red); background-color: rgba(255, 76, 76, 0.15); }
+    #custom-message-text { margin: 0; font-size: 0.95rem; line-height: 1.4; }
+
+    @media (max-width: 768px) {
+        .content-wrapper { width: 85vw; }
+        #waitlist-form { max-width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      body { padding: 2rem 1rem; }
+      .content-wrapper {
+        gap: 2rem;
+        width: 90vw;
+      }
+      h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
+      .custom-message { min-width: 90%; top: 10px; }
+      .scroll-to-form-btn { max-width: 100%; }
+      p.subheading, .highlight { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="content-wrapper">
+    <h1>Stop Drowning in Distractions.</h1>
+    <p class="subheading">Get a <span class="highlight-phrase highlight-green"><strong>free</strong></span>, <span class="highlight-phrase highlight-red"><strong>science-backed</strong></span> toolkit to <span class="highlight-phrase highlight-blue"><strong>reclaim your focus</strong></span> — <span class="coming-soon-text"><strong>coming soon</strong></span>.</p>
+
+    <button id="scroll-to-form-button" class="scroll-to-form-btn">Get Access Now</button>
+
+    <div class="value-props-list">
+      <div class="point-container video-item">
+        <i class="far fa-play-circle icon icon-video"></i><span class="li-text">25-minute <strong>video breakdown</strong> of the top <strong>multitasking traps</strong></span>
+      </div>
+      <div class="point-container list-item">
+        <i class="far fa-list-alt icon icon-list"></i><span class="li-text">Simple <strong>Notion focus tracker</strong></span>
+      </div>
+      <div class="point-container file-item">
+        <i class="far fa-file-alt icon icon-file"></i><span class="li-text">Curated <strong>productivity playlist &amp; PDF</strong></span>
+      </div>
+      <div class="point-container flask-item">
+        <i class="fas fa-flask icon icon-flask"></i><span class="li-text">Built on <strong>neuroscience</strong> &amp; <strong>40+ hours of research</strong></span>
+      </div>
+    </div>
+
+    <span class="highlight">Free version drops soon — join the list!</span>
+
+    <form id="waitlist-form">
+      <input type="email" id="email-input" class="form-input" placeholder="you@example.com" required>
+      <button type="submit" class="form-button">Get Early Access</button>
+    </form>
+  </div>
+
+  <footer>Created with care by CrazyIQ</footer>
+
+  <div id="custom-message-box" class="custom-message">
+    <p id="custom-message-text"></p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('waitlist-form');
+      const emailInput = document.getElementById('email-input');
+      const submitButton = form.querySelector('.form-button');
+      const messageBox = document.getElementById('custom-message-box');
+      const messageText = document.getElementById('custom-message-text');
+      let messageTimeout;
+
+      const scrollToFormBtn = document.getElementById('scroll-to-form-button');
+      if (scrollToFormBtn && emailInput) {
+        scrollToFormBtn.addEventListener('click', () => {
+          emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+           setTimeout(() => emailInput.focus({ preventScroll: true }), 600);
+        });
+      }
+
+      function showCustomMessage(message, type = 'info', duration = 4000) {
+        clearTimeout(messageTimeout);
+        messageText.textContent = message;
+        messageBox.className = 'custom-message';
+        if (type) messageBox.classList.add(type);
+        messageBox.classList.add('show');
+        messageTimeout = setTimeout(() => {
+          messageBox.classList.remove('show');
+        }, duration);
+      }
+
+      if (form) {
+        form.addEventListener('submit', async e => {
+          e.preventDefault();
+          const emailValue = emailInput.value;
+          const originalButtonText = submitButton.textContent;
+          submitButton.textContent = 'Subscribing...';
+          submitButton.disabled = true;
+
+          try {
+            const response = await fetch('https://api.brevo.com/v3/contacts', {
+              method: 'POST',
+              headers: {
+                'accept': 'application/json',
+                'api-key': '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', // Replace
+                'content-type': 'application/json'
+              },
+              body: JSON.stringify({ email: emailValue, listIds: [3] })
+            });
+
+            if (response.status === 201) {
+              showCustomMessage('Thanks for joining! You\'re on the list.', 'success');
+              form.reset();
+            } else if (response.status === 204) {
+              showCustomMessage('You\'re already on the list! We\'ll keep you updated.', 'success', 5000);
+              form.reset();
+            } else {
+              let errorMessage = 'Oops! Something went wrong.';
+              try {
+                const errorData = await response.json();
+                errorMessage = errorData.message || `Error: ${response.status}. Please try again.`;
+              } catch (parseError) {
+                errorMessage = `Error: ${response.status}. An issue occurred.`;
+              }
+              showCustomMessage(errorMessage, 'error', 5000);
+            }
+          } catch (err) {
+            console.error('Fetch Error:', err);
+            showCustomMessage('Network error. Please check your connection and try again.', 'error', 5000);
+          } finally {
+            submitButton.textContent = originalButtonText;
+            submitButton.disabled = false;
+          }
+        });
+      }
+
+      // GSAP ANIMATIONS
+      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      const heroHeading = document.querySelector('h1');
+      const subheadingEl = document.querySelector('p.subheading');
+      const newScrollButton = document.getElementById('scroll-to-form-button');
+      const valuePointContainers = gsap.utils.toArray(".point-container");
+      const highlightTextEl = document.querySelector('.highlight');
+      const formElement = document.getElementById('waitlist-form');
+
+      function splitTextIntoChars(element) {
+        if (!element) return [];
+        const text = element.textContent;
+        element.innerHTML = '';
+        const charSpans = [];
+        for (let i = 0; i < text.length; i++) {
+            const charSpan = document.createElement('span');
+            charSpan.className = 'char-anim';
+            if (text[i] === ' ') { charSpan.innerHTML = '&nbsp;'; }
+            else { charSpan.textContent = text[i]; }
+            element.appendChild(charSpan);
+            charSpans.push(charSpan);
+        }
+        return charSpans;
+      }
+
+      function wrapWordsForSideSlide(element) {
+        if (!element) return [];
+        const originalText = element.textContent.trim();
+        element.innerHTML = originalText.split(/\s+/)
+            .map(word => `<span class="word-wrapper"><span class="word-inner">${word}</span></span>`)
+            .join(' ');
+        return Array.from(element.querySelectorAll('.word-inner'));
+      }
+
+      if (heroHeading) {
+        const wordInners = wrapWordsForSideSlide(heroHeading);
+        gsap.set(heroHeading, {visibility: 'visible'});
+        gsap.set(wordInners, { autoAlpha: 0, xPercent: (index) => index % 2 === 0 ? -80 : 80, rotationY: (index) => index % 2 === 0 ? -15 : 15 });
+        tl.to(wordInners, { autoAlpha: 1, xPercent: 0, rotationY: 0, duration: 0.6, stagger: 0.08, ease: "back.out(1.2)" });
+      }
+
+      if (subheadingEl) {
+        gsap.set(subheadingEl, {visibility: 'visible', autoAlpha: 0, y: 20});
+        tl.to(subheadingEl, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power1.out" }, "-=0.3");
+
+        const subheadingHighlights = subheadingEl.querySelectorAll('.highlight-phrase');
+        if (subheadingHighlights.length > 0) {
+            gsap.set(subheadingHighlights, {"--marker-width": "0"});
+            tl.to(subheadingHighlights, {
+                "--marker-width": "1",
+                duration: 0.4,
+                stagger: 0.2,
+                ease: "power2.inOut"
+            }, "-=0.2");
+        }
+      }
+
+      if (newScrollButton) {
+        gsap.set(newScrollButton, {visibility: 'visible', autoAlpha: 0, y: 20});
+        tl.to(newScrollButton, {autoAlpha: 1, y: 0, duration: 0.5, ease: "expo.out"}, "-=0.3");
+      }
+
+
+      if (valuePointContainers.length > 0) {
+        tl.from(valuePointContainers, { autoAlpha: 0, y: 40, scale: 0.95, duration: 0.5, stagger: 0.15, ease: "expo.out" }, "-=0.3");
+
+        valuePointContainers.forEach((container, index) => {
+            const icon = container.querySelector('.icon');
+            const textElement = container.querySelector('.li-text'); // Text element for list items
+            
+            const containerTween = tl.getTweensOf(container)[0];
+            const containerStartTime = containerTween ? containerTween.startTime() : tl.duration();
+
+            if (icon) {
+                tl.from(icon, { autoAlpha: 0, scale: 0.3, rotationZ: -30, duration: 0.4, ease: "back.out(1.5)" }, containerStartTime + 0.1);
+                gsap.to(icon, { y: -(1.5 + Math.random() * 1), scale: 1.03, repeat: -1, yoyo: true, duration: 0.7 + Math.random() * 0.3, ease: "sine.inOut", delay: containerStartTime + 0.5 + (index * 0.05) });
+            }
+
+            if (textElement) { // Animate the text block itself
+                gsap.set(textElement, {autoAlpha: 0, y: 10});
+                tl.to(textElement, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power1.out" }, containerStartTime + 0.2);
+            }
+        });
+      }
+
+      if (highlightTextEl) {
+        const highlightChars = splitTextIntoChars(highlightTextEl);
+        gsap.set(highlightTextEl, {visibility: 'visible'});
+        gsap.set(highlightChars, { autoAlpha: 0, y: (index) => index % 2 === 0 ? -12 : 12 });
+        tl.to(highlightChars, { autoAlpha: 1, y: 0, duration: 0.025, stagger: 0.02, ease: "power1.inOut" }, ">-0.5");
+      }
+
+      if (formElement) {
+        const formInputsAndButton = formElement.querySelectorAll('.form-input, .form-button');
+        gsap.set(formElement, {visibility: 'visible'});
+        tl.from(formInputsAndButton, { autoAlpha:0, y:15, duration: 0.4, stagger: 0.1, ease: "power2.out" }, ">-0.3");
+      }
+    });
+  </script>
+
+</body>
+</html>

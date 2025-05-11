@@ -4,41 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escape the Multitasking Trap</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FD18MGR1DY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-FD18MGR1DY');
-</script>
+  <!-- GA4 Global Site Tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FD18MGR1DY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FD18MGR1DY');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <style>
     :root {
       --bg-color: #0D0D0D;
       --text-color: #F5F5F5;
       --accent-teal: #00FFC3;
       --accent-orange: #FFA552;
-
       --icon-green-rgb: 0, 255, 195;
       --icon-yellow-rgb: 255, 165, 82;
       --icon-blue-rgb: 0, 163, 255;
       --icon-red-rgb: 255, 76, 76;
-
       --icon-green: #00FFC3;
       --icon-yellow: #FFA552;
       --icon-blue: #00A3FF;
       --icon-red: #FF4C4C;
-
       --glass-bg-base: rgba(45, 45, 45, 0.15);
       --glass-blur-base: 6px;
       --glass-bg-hover-intensity: 0.08;
       --glass-blur-hover: 10px;
     }
-
     body {
       background: var(--bg-color);
       color: var(--text-color);
@@ -54,7 +53,6 @@
       box-sizing: border-box;
       overflow-x: hidden;
     }
-
     .content-wrapper {
       width: 67vw;
       max-width: 1000px;
@@ -63,17 +61,15 @@
       gap: 2.5rem;
       align-items: center;
     }
-
     .value-props-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-        width: 100%;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      width: 100%;
     }
-
     .point-container {
       width: 100%;
       box-sizing: border-box;
@@ -97,7 +93,6 @@
       display: flex;
       align-items: flex-start;
     }
-
     .point-container:hover {
       transform: scale(1.03);
       backdrop-filter: blur(var(--glass-blur-hover)) saturate(150%);
@@ -105,65 +100,36 @@
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
       z-index: 10;
     }
-
     .point-container.video-item:hover {
-        background-color: rgba(var(--icon-green-rgb), var(--glass-bg-hover-intensity));
-        border-color: rgba(var(--icon-green-rgb), 0.4);
+      background-color: rgba(var(--icon-green-rgb), var(--glass-bg-hover-intensity));
+      border-color: rgba(var(--icon-green-rgb), 0.4);
     }
     .point-container.list-item:hover {
-        background-color: rgba(var(--icon-yellow-rgb), var(--glass-bg-hover-intensity));
-        border-color: rgba(var(--icon-yellow-rgb), 0.4);
+      background-color: rgba(var(--icon-yellow-rgb), var(--glass-bg-hover-intensity));
+      border-color: rgba(var(--icon-yellow-rgb), 0.4);
     }
     .point-container.file-item:hover {
-        background-color: rgba(var(--icon-blue-rgb), var(--glass-bg-hover-intensity));
-        border-color: rgba(var(--icon-blue-rgb), 0.4);
+      background-color: rgba(var(--icon-blue-rgb), var(--glass-bg-hover-intensity));
+      border-color: rgba(var(--icon-blue-rgb), 0.4);
     }
     .point-container.flask-item:hover {
-        background-color: rgba(var(--icon-red-rgb), var(--glass-bg-hover-intensity));
-        border-color: rgba(var(--icon-red-rgb), 0.4);
+      background-color: rgba(var(--icon-red-rgb), var(--glass-bg-hover-intensity));
+      border-color: rgba(var(--icon-red-rgb), 0.4);
     }
-
     h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); margin-bottom: 0.5rem; font-weight: 700; visibility: hidden; }
     h1 .word-wrapper { display: inline-block; overflow: hidden; vertical-align: top; }
     h1 .word-inner, .char-anim { display: inline-block; position: relative; will-change: transform, opacity; }
-
     p.subheading { font-size: clamp(1rem, 3vw, 1.25rem); line-height: 1.7; color: #D0D0D0; visibility: hidden; margin-bottom: 0; width: 100%; max-width: 650px; }
-
-    .value-props-list .icon {
-      font-size: 1.6rem;
-      width: 2.5rem;
-      text-align: center;
-      margin-right: 1rem;
-      flex-shrink: 0;
-    }
-    .value-props-list .li-text {
-        flex-grow: 1;
-        font-size: clamp(0.9rem, 2.3vw, 1.05rem);
-        line-height: 1.7;
-    }
-    .value-props-list .li-text strong {
-        font-weight: 600; /* Slightly less heavy than 700 if desired, or keep 700 */
-    }
-
-
+    .value-props-list .icon { font-size: 1.6rem; width: 2.5rem; text-align: center; margin-right: 1rem; flex-shrink: 0; }
+    .value-props-list .li-text { flex-grow: 1; font-size: clamp(0.9rem, 2.3vw, 1.05rem); line-height: 1.7; }
+    .value-props-list .li-text strong { font-weight: 600; }
     .icon-video { color: var(--icon-green); }
     .icon-list  { color: var(--icon-yellow); }
     .icon-file  { color: var(--icon-blue); }
     .icon-flask { color: var(--icon-red); }
-
-    .highlight { color: var(--accent-teal); font-weight: 600; display: block; font-size: clamp(1.1rem, 3vw, 1.35rem); visibility: hidden; margin-bottom: 0; width: 100%; max-width: 650px;}
-
-    /* Highlight phrases in subheading */
-    .highlight-phrase {
-      position: relative;
-      display: inline;
-    }
-    .highlight-phrase strong {
-      position: relative;
-      z-index: 1;
-      font-weight: 700;
-      padding: 0 0.1em;
-    }
+    .highlight { color: var(--accent-teal); font-weight: 600; display: block; font-size: clamp(1.1rem, 3vw, 1.35rem); visibility: hidden; margin-bottom: 0; width: 100%; max-width: 650px; }
+    .highlight-phrase { position: relative; display: inline; }
+    .highlight-phrase strong { position: relative; z-index: 1; font-weight: 700; padding: 0 0.1em; }
     .highlight-phrase::before {
       content: '';
       position: absolute;
@@ -190,17 +156,12 @@
       background-color: rgba(var(--icon-blue-rgb), 0.2);
       box-shadow: 0 0 10px 2px rgba(var(--icon-blue-rgb), 0.45);
     }
-
-    .coming-soon-text {
-      color: var(--icon-red);
-      font-weight: 700;
-    }
+    .coming-soon-text { color: var(--icon-red); font-weight: 700; }
     .coming-soon-text strong { font-weight: 700; }
-
     .scroll-to-form-btn {
       padding: 0.9rem 1.75rem;
-      background: var(--icon-red); /* MODIFIED: Red color */
-      color: var(--text-color);     /* MODIFIED: White text for contrast */
+      background: var(--icon-red);
+      color: var(--text-color);
       border: none;
       border-radius: 6px;
       font-size: 1rem;
@@ -214,12 +175,7 @@
       visibility: hidden;
       margin-top: 0.5rem;
     }
-    .scroll-to-form-btn:hover {
-      background: #ff3333; /* MODIFIED: Lighter red for hover */
-      transform: scale(1.05);
-    }
-
-
+    .scroll-to-form-btn:hover { background: #ff3333; transform: scale(1.05); }
     #waitlist-form {
       display: flex;
       flex-direction: column;
@@ -230,8 +186,7 @@
       width: 100%;
       max-width: 400px;
     }
-    .form-input,
-    .form-button {
+    .form-input, .form-button {
       padding: 0.9rem 1.1rem;
       width: 100%;
       border: 1px solid #333;
@@ -243,7 +198,6 @@
       box-sizing: border-box;
     }
     .form-input::placeholder { color: #888; }
-
     .form-button {
       background: var(--accent-teal);
       color: var(--bg-color);
@@ -254,26 +208,43 @@
     }
     .form-button:hover { background: #00e6b8; transform: scale(1.05); }
     .form-button:active { transform: scale(0.98) translateY(1px); transition-duration: 0.05s; }
-
     footer { margin-top: 3rem; padding-top: 1rem; font-size: 0.85rem; color: #777; }
-
-    .custom-message { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-120px); padding: 1rem 1.5rem; border-radius: 8px; background-color: rgba(30, 30, 30, 0.65); backdrop-filter: blur(12px) saturate(150%); -webkit-backdrop-filter: blur(12px) saturate(150%); color: var(--text-color); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35); z-index: 1000; text-align: center; min-width: 280px; max-width: 90%; opacity: 0; visibility: hidden; transition: opacity 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0.35s; }
-    .custom-message.show { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); transition: opacity 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0s; }
+    .custom-message {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-120px);
+      padding: 1rem 1.5rem;
+      border-radius: 8px;
+      background-color: rgba(30, 30, 30, 0.65);
+      backdrop-filter: blur(12px) saturate(150%);
+      -webkit-backdrop-filter: blur(12px) saturate(150%);
+      color: var(--text-color);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
+      z-index: 1000;
+      text-align: center;
+      min-width: 280px;
+      max-width: 90%;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0.35s;
+    }
+    .custom-message.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+      transition: opacity 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1), visibility 0s 0s;
+    }
     .custom-message.success { border-left: 5px solid var(--accent-teal); background-color: rgba(0, 255, 195, 0.15); }
     .custom-message.error { border-left: 5px solid var(--icon-red); background-color: rgba(255, 76, 76, 0.15); }
     #custom-message-text { margin: 0; font-size: 0.95rem; line-height: 1.4; }
-
     @media (max-width: 768px) {
-        .content-wrapper { width: 85vw; }
-        #waitlist-form { max-width: 100%; }
+      .content-wrapper { width: 85vw; }
+      #waitlist-form { max-width: 100%; }
     }
-
     @media (max-width: 480px) {
       body { padding: 2rem 1rem; }
-      .content-wrapper {
-        gap: 2rem;
-        width: 90vw;
-      }
+      .content-wrapper { gap: 2rem; width: 90vw; }
       h1 { font-size: clamp(1.8rem, 7vw, 2.5rem); }
       .custom-message { min-width: 90%; top: 10px; }
       .scroll-to-form-btn { max-width: 100%; }
@@ -285,22 +256,30 @@
 
   <div class="content-wrapper">
     <h1>Stop Drowning in Distractions.</h1>
-    <p class="subheading">Get a <span class="highlight-phrase highlight-green"><strong>free</strong></span>, <span class="highlight-phrase highlight-red"><strong>science-backed</strong></span> toolkit to <span class="highlight-phrase highlight-blue"><strong>reclaim your focus</strong></span> — <span class="coming-soon-text"><strong>coming soon</strong></span>.</p>
+    <p class="subheading">Get a <span class="highlight-phrase highlight-green"><strong>free</strong></span>,
+      <span class="highlight-phrase highlight-red"><strong>science-backed</strong></span> toolkit to
+      <span class="highlight-phrase highlight-blue"><strong>reclaim your focus</strong></span> —
+      <span class="coming-soon-text"><strong>coming soon</strong></span>.
+    </p>
 
     <button id="scroll-to-form-button" class="scroll-to-form-btn">Get Access Now</button>
 
     <div class="value-props-list">
       <div class="point-container video-item">
-        <i class="far fa-play-circle icon icon-video"></i><span class="li-text">25-minute <strong>video breakdown</strong> of the top <strong>multitasking traps</strong></span>
+        <i class="far fa-play-circle icon icon-video"></i>
+        <span class="li-text">25-minute <strong>video breakdown</strong> of the top <strong>multitasking traps</strong></span>
       </div>
       <div class="point-container list-item">
-        <i class="far fa-list-alt icon icon-list"></i><span class="li-text">Simple <strong>Notion focus tracker</strong></span>
+        <i class="far fa-list-alt icon icon-list"></i>
+        <span class="li-text">Simple <strong>Notion focus tracker</strong></span>
       </div>
       <div class="point-container file-item">
-        <i class="far fa-file-alt icon icon-file"></i><span class="li-text">Curated <strong>productivity playlist &amp; PDF</strong></span>
+        <i class="far fa-file-alt icon icon-file"></i>
+        <span class="li-text">Curated <strong>productivity playlist &amp; PDF</strong></span>
       </div>
       <div class="point-container flask-item">
-        <i class="fas fa-flask icon icon-flask"></i><span class="li-text">Built on <strong>neuroscience</strong> &amp; <strong>40+ hours of research</strong></span>
+        <i class="fas fa-flask icon icon-flask"></i>
+        <span class="li-text">Built on <strong>neuroscience</strong> &amp; <strong>40+ hours of research</strong></span>
       </div>
     </div>
 
@@ -330,8 +309,12 @@
       const scrollToFormBtn = document.getElementById('scroll-to-form-button');
       if (scrollToFormBtn && emailInput) {
         scrollToFormBtn.addEventListener('click', () => {
+          gtag('event', 'scroll_to_form_click', {
+            event_category: 'engagement',
+            event_label: 'Scroll to Form Button'
+          });
           emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-           setTimeout(() => emailInput.focus({ preventScroll: true }), 600);
+          setTimeout(() => emailInput.focus({ preventScroll: true }), 600);
         });
       }
 
@@ -349,6 +332,11 @@
       if (form) {
         form.addEventListener('submit', async e => {
           e.preventDefault();
+          gtag('event', 'email_submit_click', {
+            event_category: 'engagement',
+            event_label: 'Waitlist Form Submit'
+          });
+
           const emailValue = emailInput.value;
           const originalButtonText = submitButton.textContent;
           submitButton.textContent = 'Subscribing...';
@@ -359,7 +347,7 @@
               method: 'POST',
               headers: {
                 'accept': 'application/json',
-                'api-key': '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', // Replace
+                'api-key': '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',
                 'content-type': 'application/json'
               },
               body: JSON.stringify({ email: emailValue, listIds: [3] })
@@ -376,7 +364,7 @@
               try {
                 const errorData = await response.json();
                 errorMessage = errorData.message || `Error: ${response.status}. Please try again.`;
-              } catch (parseError) {
+              } catch {
                 errorMessage = `Error: ${response.status}. An issue occurred.`;
               }
               showCustomMessage(errorMessage, 'error', 5000);
@@ -391,7 +379,6 @@
         });
       }
 
-      // GSAP ANIMATIONS
       const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
       const heroHeading = document.querySelector('h1');
       const subheadingEl = document.querySelector('p.subheading');
@@ -406,12 +393,12 @@
         element.innerHTML = '';
         const charSpans = [];
         for (let i = 0; i < text.length; i++) {
-            const charSpan = document.createElement('span');
-            charSpan.className = 'char-anim';
-            if (text[i] === ' ') { charSpan.innerHTML = '&nbsp;'; }
-            else { charSpan.textContent = text[i]; }
-            element.appendChild(charSpan);
-            charSpans.push(charSpan);
+          const charSpan = document.createElement('span');
+          charSpan.className = 'char-anim';
+          if (text[i] === ' ') { charSpan.innerHTML = '&nbsp;'; }
+          else { charSpan.textContent = text[i]; }
+          element.appendChild(charSpan);
+          charSpans.push(charSpan);
         }
         return charSpans;
       }
@@ -420,8 +407,8 @@
         if (!element) return [];
         const originalText = element.textContent.trim();
         element.innerHTML = originalText.split(/\s+/)
-            .map(word => `<span class="word-wrapper"><span class="word-inner">${word}</span></span>`)
-            .join(' ');
+          .map(word => `<span class="word-wrapper"><span class="word-inner">${word}</span></span>`)
+          .join(' ');
         return Array.from(element.querySelectorAll('.word-inner'));
       }
 
@@ -435,16 +422,15 @@
       if (subheadingEl) {
         gsap.set(subheadingEl, {visibility: 'visible', autoAlpha: 0, y: 20});
         tl.to(subheadingEl, { autoAlpha: 1, y: 0, duration: 0.6, ease: "power1.out" }, "-=0.3");
-
         const subheadingHighlights = subheadingEl.querySelectorAll('.highlight-phrase');
         if (subheadingHighlights.length > 0) {
-            gsap.set(subheadingHighlights, {"--marker-width": "0"});
-            tl.to(subheadingHighlights, {
-                "--marker-width": "1",
-                duration: 0.4,
-                stagger: 0.2,
-                ease: "power2.inOut"
-            }, "-=0.2");
+          gsap.set(subheadingHighlights, {"--marker-width": "0"});
+          tl.to(subheadingHighlights, {
+            "--marker-width": "1",
+            duration: 0.4,
+            stagger: 0.2,
+            ease: "power2.inOut"
+          }, "-=0.2");
         }
       }
 
@@ -453,26 +439,21 @@
         tl.to(newScrollButton, {autoAlpha: 1, y: 0, duration: 0.5, ease: "expo.out"}, "-=0.3");
       }
 
-
       if (valuePointContainers.length > 0) {
         tl.from(valuePointContainers, { autoAlpha: 0, y: 40, scale: 0.95, duration: 0.5, stagger: 0.15, ease: "expo.out" }, "-=0.3");
-
         valuePointContainers.forEach((container, index) => {
-            const icon = container.querySelector('.icon');
-            const textElement = container.querySelector('.li-text'); // Text element for list items
-            
-            const containerTween = tl.getTweensOf(container)[0];
-            const containerStartTime = containerTween ? containerTween.startTime() : tl.duration();
-
-            if (icon) {
-                tl.from(icon, { autoAlpha: 0, scale: 0.3, rotationZ: -30, duration: 0.4, ease: "back.out(1.5)" }, containerStartTime + 0.1);
-                gsap.to(icon, { y: -(1.5 + Math.random() * 1), scale: 1.03, repeat: -1, yoyo: true, duration: 0.7 + Math.random() * 0.3, ease: "sine.inOut", delay: containerStartTime + 0.5 + (index * 0.05) });
-            }
-
-            if (textElement) { // Animate the text block itself
-                gsap.set(textElement, {autoAlpha: 0, y: 10});
-                tl.to(textElement, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power1.out" }, containerStartTime + 0.2);
-            }
+          const icon = container.querySelector('.icon');
+          const textElement = container.querySelector('.li-text');
+          const containerTween = tl.getTweensOf(container)[0];
+          const containerStartTime = containerTween ? containerTween.startTime() : tl.duration();
+          if (icon) {
+            tl.from(icon, { autoAlpha: 0, scale: 0.3, rotationZ: -30, duration: 0.4, ease: "back.out(1.5)" }, containerStartTime + 0.1);
+            gsap.to(icon, { y: -(1.5 + Math.random() * 1), scale: 1.03, repeat: -1, yoyo: true, duration: 0.7 + Math.random() * 0.3, ease: "sine.inOut", delay: containerStartTime + 0.5 + (index * 0.05) });
+          }
+          if (textElement) {
+            gsap.set(textElement, {autoAlpha: 0, y: 10});
+            tl.to(textElement, { autoAlpha: 1, y: 0, duration: 0.4, ease: "power1.out" }, containerStartTime + 0.2);
+          }
         });
       }
 
